@@ -1,0 +1,21 @@
+{
+  "name": "personal",
+  "homepage": "https://github.com/pratiksvaidya/personal",
+  "authors": [
+    "pratiksvaidya <pratik@wellopp.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "paper-button": "^2.0.0",
+    "polymer": "^2.0.1"
+  }
+}
