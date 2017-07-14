@@ -1,0 +1,149 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+
+<link rel="import" href="bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="bower_components/paper-item/paper-item.html">
+<link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
+
+<dom-module id="x-app">
+
+  <template>
+
+    <style>
+     header {
+        @apply --layout-vertical;
+        @apply --layout-center-center;
+        height: calc(100vh - 64px);
+        padding: 0 16px;
+        background-image: url('images/blue-mtns.png');
+        opacity: 50%;
+        backgrond-repeat: no-repeat;
+        background-size: cover;
+        color: white;
+        text-align: left;
+    }
+
+    header > div > h1 {
+        font-size: 56px;
+        font-weight: 300;
+        margin: 0;
+    }
+
+    header > p {
+        font-size: 32px;
+    }
+
+    section {
+        padding: 88px 16px;
+    }
+
+      app-toolbar {
+        background-color: white;
+      }
+      .main-header {
+        box-shadow: 0px 5px 6px -3px rgba(0, 0, 0, 0.4);
+      }
+
+    .tabs-bar {
+        margin: auto;
+    }
+
+      paper-tabs {
+        --paper-tabs-selection-bar-color: black;
+        height: 63px;
+        max-width: 640px;
+      }
+      paper-tab {
+        --paper-tab-ink: #aaa;
+        text-transform: uppercase;
+      }
+      [hidden] {
+        display: none !important;
+      }
+    </style>
+
+    <app-drawer-layout force-narrow>
+
+      <app-drawer id="drawer" slot="drawer">
+
+        <app-toolbar></app-toolbar>
+
+        <!-- Nav on mobile: side nav menu -->
+        <paper-listbox selected="{{selected}}" attr-for-selected="name">
+          <template is="dom-repeat" items="{{items}}">
+            <paper-item name$="{{item}}">{{item}}</paper-item>
+          </template>
+        </paper-listbox>
+
+      </app-drawer>
+
+      <app-header-layout>
+        <app-header class="main-header" slot="header">
+
+          <app-toolbar>
+            <paper-icon-button class="menu-button" icon="menu" drawer-toggle hidden$="{{wideLayout}}"></paper-icon-button>
+            <!-- Nav on desktop: tabs -->
+            <div class="tabs-bar" hidden$="{{!wideLayout}}">
+                <paper-tabs selected="{{selected}}" attr-for-selected="name">
+                <template is="dom-repeat" items="{{items}}">
+                    <paper-tab name$="{{item}}">{{item}}</paper-tab>
+                </template>
+                </paper-tabs>
+            </div>
+          </app-toolbar>
+
+        </app-header>
+        <header>
+            <div>
+                <h3>HELLO, I AM</h3>
+                <h1>Pratik</h1>
+                <h1><strong>Vaidya</strong></h1>
+                <h2>Student. Creative Thinker. Adventurer.</h2>
+            </div>
+        </header>
+      </app-header-layout>
+
+    </app-drawer-layout>
+
+    <iron-media-query query="min-width: 600px" query-matches="{{wideLayout}}"></iron-media-query>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'x-app',
+      properties: {
+        selected: {
+          type: String,
+          value: 'Home'
+        },
+        wideLayout: {
+          type: Boolean,
+          value: false,
+          observer: 'onLayoutChange',
+        },
+        items: {
+          type: Array,
+          value: function() {
+            return ['Home', 'About', 'Experience', 'Contact'];
+          }
+        }
+      },
+      onLayoutChange: function(wide) {
+        var drawer = this.$.drawer;
+        if (wide && drawer.opened) {
+          drawer.opened = false;
+        }
+      }
+    });
+  </script>
+
+</dom-module>
