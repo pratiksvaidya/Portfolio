@@ -1,0 +1,438 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+
+<link rel="import" href="bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="bower_components/iron-icons/hardware-icons.html">
+<link rel="import" href="bower_components/iron-icons/communication-icons.html">
+<link rel="import" href="bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="bower_components/paper-item/paper-item.html">
+<link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
+
+<dom-module id="x-app">
+
+  <template>
+    
+    <style>
+     header {
+        @apply --layout-vertical;
+        @apply --layout-center-center;
+        height: calc(100vh - 64px);
+        padding: 0 16px;
+        background-image: url('images/blue-mtns.png');
+        opacity: 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        color: white;
+        text-align: left;
+    }
+
+    header > div > div {
+      margin: 0 20px;
+    }
+
+    header > div > div > h1 {
+        font-size: 56px;
+        font-weight: 300;
+        margin: 0;
+    }
+
+    header > div > p {
+        font-size: 32px;
+    }
+
+    .headerBody {
+      @apply(--layout-horizontal);
+    }
+
+    .contact {
+      width: 250px;
+      height: 250px;
+      margin-top: 25px;
+      margin-right: 75px;
+      border-radius: 125px;
+    }
+
+    .container {
+      position: relative;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 0;
+      width: 90%;
+      height: 100px;
+      padding-left: 50px;
+      padding-right: 50px;
+    }
+
+    .footer > hr {
+      margin-bottom: 30px;
+    }
+
+    .section {
+        color: white;
+        @apply(--layout-horizontal);
+    }
+
+    .section#About,
+    .section#Projects {
+      background: #292A2A;
+    }
+
+    .section#Experiences,
+    .section#Awards {
+      background: #2B2C2C;
+    }
+
+    .section .left {
+      width: 25%;
+      padding: 100px 50px;
+      text-align: right;
+    }
+
+    .section .left > hr {
+      margin-right: 0;
+      width: 50px;
+      height: 2px;
+      border-color: gold;
+      color: gold;
+      background-color: gold;
+    }
+
+    .section .left > p {
+      font-style: italic;
+    }
+
+    .section .right {
+      width: 75%;
+      padding: 100px 50px;
+
+    }
+
+    .section .right > p {
+      margin-top: 8px;
+    }
+
+    .section#About > .right,
+    .section#Projects > .right {
+      background: #2B2C2C;
+    }
+
+    .section#Experiences > .right,
+    .section#Awards > .right {
+      background: #2D2E2E;
+    }
+
+     @media (max-width: 768px) {
+      .headerBody {
+        @apply(--layout-vertical);
+        text-align: center;
+      }
+
+      .headerBody > div > img {
+        width: 150px;
+        height: 150px;
+        border-radius: 75px;
+        margin: 0;
+      }
+      
+      header > div > div > h1 {
+        font-size: 76px;
+      }
+
+      header > div div > {
+        margin: 0;
+      }
+
+      .section {
+        text-align: -webkit-center;
+        @apply(--layout-vertical);
+      }
+
+      .section .right > p {
+        text-align: left;
+      }
+
+      .section .left,
+      .section .right {
+        padding: 50px 25px;
+        text-align: center;
+        width: 86%;
+      }
+
+      .section .left > hr {
+        margin: auto;
+      }
+    }
+
+    app-toolbar {
+      background-color: white;
+    }
+
+    .main-header {
+      box-shadow: 0px 5px 6px -3px rgba(0, 0, 0, 0.4);
+    }
+
+    .tabs-bar {
+        margin: auto;
+    }
+
+    iron-icon {
+      margin-right: 5px;
+    }
+
+    paper-tabs {
+      --paper-tabs-selection-bar-color: black;
+      height: 63px;
+      max-width: 640px;
+    }
+    paper-tab {
+      --paper-tab-ink: #aaa;
+      text-transform: uppercase;
+    }
+    [hidden] {
+      display: none !important;
+    }
+    </style>
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
+
+
+    <app-drawer-layout force-narrow>
+
+      <app-drawer id="drawer" slot="drawer">
+
+        <app-toolbar></app-toolbar>
+
+        <!-- Nav on mobile: side nav menu -->
+        <paper-listbox selected="{{selected}}" attr-for-selected="name">
+          <template is="dom-repeat" items="{{items}}">
+            <paper-item name$="{{item}}">{{item}}</paper-item>
+          </template>
+        </paper-listbox>
+
+      </app-drawer>
+
+      <app-header-layout>
+        <app-header condenses reveals class="main-header" slot="header">
+
+          <app-toolbar>
+            <paper-icon-button class="menu-button" icon="menu" drawer-toggle hidden$="{{wideLayout}}"></paper-icon-button>
+            <!-- Nav on desktop: tabs -->
+            <div class="tabs-bar" hidden$="{{!wideLayout}}">
+                <paper-tabs selected="{{selected}}" attr-for-selected="name">
+                <template is="dom-repeat" items="{{items}}">
+                    <paper-tab name$="{{item}}">{{item}}</paper-tab>
+                </template>
+                </paper-tabs>
+            </div>
+          </app-toolbar>
+
+        </app-header>
+        <header id="Home" class="container">
+          <div class="headerBody">
+            <div>
+              <img class="contact" src="/images/contact.jpg">
+            </div>
+            <div>
+                <h3>HELLO, I AM</h3>
+                <h1>Pratik</h1>
+                <h1><strong>Vaidya</strong></h1>
+                <h2>Student. Creative Thinker. Adventurer.</h2>
+            </div>
+          </div>
+          <template is="dom-if" if="[[isDesktop]]">
+            <div class="footer">
+              <hr>
+              <div class="layout horizontal">
+                <div class="flex">
+                  <iron-icon icon="maps:place"></iron-icon>
+                  Ann Arbor, MI
+                </div>
+                <div class="flex">
+                  <iron-icon icon="hardware:computer"></iron-icon>
+                  pratikvaidya.com
+                </div>
+                <div class="flex">
+                  <iron-icon icon="communication:email"></iron-icon>
+                  pratik.vaidya@outlook.com
+                </div>
+                <div class="">
+                  <iron-icon icon="communication:textsms"></iron-icon>
+                  (425) 312 - 3095
+                </div>
+              </div>
+            </div>
+          </template>
+        </header>
+      </app-header-layout>
+
+      <div id="About" class="section">
+        <div class="left">
+          <hr>
+          <h2>About</h2>
+          <p>A little about me</p>
+        </div>
+        <div class="right">
+          <p>
+            "Life begins at the end of your comfort zone" is not as much a cliche for me as it is a guiding principle to push myself into new experiences. 
+            <br><br>
+            As a practicing EMT and Red Cross volunteer, each day is an opportunity to face a new situation that could make a lasting difference to someone. 
+            <br><br>
+            As a former National Venturing President in the Boy Scouts of America and a current youth leader representing Scouting in the US, I learn and adapt to different leadership styles, communication techniques, strategies, and diverse and creative thinking from youth across the globe. 
+            <br><br>
+            As a student witnessing the acceleration of the next era in human evolution - the age of AI and Machine Learning - I seek opportunities to combine my passion in Healthcare with the science of predictive and prescriptive analytics that will fundamentally change our way of life.
+          </p>
+        </div>
+      </div>
+      <div id="Experiences" class="section">
+         <div class="left">
+          <hr>
+          <h2>Experiences</h2>
+          <p>What I love to do</p>
+        </div>
+        <div class="right">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur accumsan ante at bibendum condimentum. Proin blandit ipsum eget est aliquet blandit. Nulla consequat tortor non odio pretium, id vestibulum nunc vulputate. Nunc at laoreet eros. Nam facilisis posuere scelerisque. Nam eu mi eu massa luctus lobortis. In quis ultrices nisi. Vestibulum vitae vehicula sem, id accumsan lacus. Maecenas placerat placerat metus, interdum tempus mi tincidunt non. Integer nisl ligula, accumsan quis porta eget, tincidunt a dolor. Suspendisse luctus a ante nec molestie. Suspendisse nulla dui, suscipit ac nisl at, dictum porttitor eros. Sed sapien turpis, volutpat ut fermentum a, viverra non neque. Pellentesque ornare eget ipsum eget posuere.
+            <br>
+            Etiam tempus, risus nec cursus vulputate, ligula sem pulvinar ex, at facilisis lectus leo sit amet lorem. Mauris porttitor urna et est laoreet blandit. Phasellus mollis turpis porttitor sodales facilisis. Duis diam libero, maximus ut iaculis ac, auctor nec tellus. Nullam eu enim feugiat, lacinia mi et, ultrices ipsum. Phasellus quis nulla eu leo eleifend laoreet. Nulla facilisi. Pellentesque tempor in massa sed congue. Cras bibendum eget urna sit amet ultrices. Nulla non vulputate eros. Vestibulum placerat lacus sit amet tortor efficitur, eu fringilla eros elementum. Curabitur consectetur dictum elit non suscipit.
+          </p>
+        </div>
+      </div>
+      <div id="Projects" class="section">
+         <div class="left">
+          <hr>
+          <h2>Projects</h2>
+          <p>Some hobbies</p>
+        </div>
+        <div class="right">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur accumsan ante at bibendum condimentum. Proin blandit ipsum eget est aliquet blandit. Nulla consequat tortor non odio pretium, id vestibulum nunc vulputate. Nunc at laoreet eros. Nam facilisis posuere scelerisque. Nam eu mi eu massa luctus lobortis. In quis ultrices nisi. Vestibulum vitae vehicula sem, id accumsan lacus. Maecenas placerat placerat metus, interdum tempus mi tincidunt non. Integer nisl ligula, accumsan quis porta eget, tincidunt a dolor. Suspendisse luctus a ante nec molestie. Suspendisse nulla dui, suscipit ac nisl at, dictum porttitor eros. Sed sapien turpis, volutpat ut fermentum a, viverra non neque. Pellentesque ornare eget ipsum eget posuere.
+            <br>
+            Etiam tempus, risus nec cursus vulputate, ligula sem pulvinar ex, at facilisis lectus leo sit amet lorem. Mauris porttitor urna et est laoreet blandit. Phasellus mollis turpis porttitor sodales facilisis. Duis diam libero, maximus ut iaculis ac, auctor nec tellus. Nullam eu enim feugiat, lacinia mi et, ultrices ipsum. Phasellus quis nulla eu leo eleifend laoreet. Nulla facilisi. Pellentesque tempor in massa sed congue. Cras bibendum eget urna sit amet ultrices. Nulla non vulputate eros. Vestibulum placerat lacus sit amet tortor efficitur, eu fringilla eros elementum. Curabitur consectetur dictum elit non suscipit.
+          </p>
+        </div>
+      </div>
+      <div id="Awards" class="section">
+        <div class="left">
+          <hr>
+          <h2>Awards</h2>
+          <p>Some achievements</p>
+        </div>
+        <div class="right">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur accumsan ante at bibendum condimentum. Proin blandit ipsum eget est aliquet blandit. Nulla consequat tortor non odio pretium, id vestibulum nunc vulputate. Nunc at laoreet eros. Nam facilisis posuere scelerisque. Nam eu mi eu massa luctus lobortis. In quis ultrices nisi. Vestibulum vitae vehicula sem, id accumsan lacus. Maecenas placerat placerat metus, interdum tempus mi tincidunt non. Integer nisl ligula, accumsan quis porta eget, tincidunt a dolor. Suspendisse luctus a ante nec molestie. Suspendisse nulla dui, suscipit ac nisl at, dictum porttitor eros. Sed sapien turpis, volutpat ut fermentum a, viverra non neque. Pellentesque ornare eget ipsum eget posuere.
+            <br>
+            Etiam tempus, risus nec cursus vulputate, ligula sem pulvinar ex, at facilisis lectus leo sit amet lorem. Mauris porttitor urna et est laoreet blandit. Phasellus mollis turpis porttitor sodales facilisis. Duis diam libero, maximus ut iaculis ac, auctor nec tellus. Nullam eu enim feugiat, lacinia mi et, ultrices ipsum. Phasellus quis nulla eu leo eleifend laoreet. Nulla facilisi. Pellentesque tempor in massa sed congue. Cras bibendum eget urna sit amet ultrices. Nulla non vulputate eros. Vestibulum placerat lacus sit amet tortor efficitur, eu fringilla eros elementum. Curabitur consectetur dictum elit non suscipit.
+          </p>
+        </div>
+      </div>
+    </app-drawer-layout>
+
+    <iron-media-query query="min-width: 768px" query-matches="{{wideLayout}}"></iron-media-query>
+
+  </template>
+
+  <script>
+    class XApp extends Polymer.Element{
+      static get is() {
+        return 'x-app'
+      }
+
+      static get properties() {
+        return {
+          isDesktop: {
+            type: Boolean, 
+            value: false
+          },
+          selected: {
+            type: String,
+            value: 'Home'
+          },
+          wideLayout: {
+            type: Boolean,
+            value: false,
+            observer: '_onLayoutChange',
+          },
+          items: {
+            type: Array,
+            value: function() {
+              return ['Home', 'About', 'Experiences', 'Projects', 'Awards'];
+            }
+          }
+        }
+      }
+
+      _onLayoutChange(wide) {
+        var drawer = this.$.drawer;
+        if (wide && drawer.opened) {
+          drawer.opened = false;
+        }
+      }
+      ready() { 
+        super.ready();
+
+        this.setupNav();
+
+        if(window.innerWidth > 768) {
+          this.isDesktop = true;
+        }
+
+        window.addEventListener('resize', () => {
+          if(window.innerWidth > 768) {
+            this.isDesktop = true;
+          }
+          else {
+            this.isDesktop = false;
+          }
+        });
+      }
+
+      setupNav() {
+        requestAnimationFrame(() => {
+          let edgeOffset = 0; // px
+          zenscroll.setup(null, edgeOffset);
+
+          if(location.hash !== '') {
+            if(location.hash == '#Home') {
+                zenscroll.setup(null, 64);
+                zenscroll.to(this.root.querySelector(location.hash));
+                zenscroll.setup(null, edgeOffset);
+            }
+            else {
+              zenscroll.to(this.root.querySelector(location.hash));
+              this.root.querySelector('paper-tabs').selected = location.hash.slice(1);
+            }
+          }
+
+          this.navItems = [...this.root.querySelectorAll('paper-tab')];
+          this.navItems.push(...this.root.querySelectorAll('paper-item'));
+          this.navItems.map(item =>
+            item.addEventListener('click', () => {
+              location.hash = item.getAttribute('name');
+              if(location.hash == '#Home') {
+                zenscroll.setup(null, 64);
+                zenscroll.to(this.root.querySelector("#" + item.getAttribute('name')));
+                zenscroll.setup(null, edgeOffset);
+              }
+              else {
+                zenscroll.to(this.root.querySelector("#" + item.getAttribute('name')));
+              }
+              this.root.querySelector('app-drawer').close();
+            })
+          );
+        });
+      }
+    }
+    customElements.define(XApp.is, XApp);
+  </script>
+  <script src="bower_components/zenscroll/zenscroll-min.js"></script>
+</dom-module>
