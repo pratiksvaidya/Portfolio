@@ -45,18 +45,12 @@
         margin: 0;
     }
 
-    @media (min-width: 768px) {
-      header > div > div > h1 {
-        font-size: 76px;
-      }
-
-      header > div div > {
-        margin: 0;
-      }
-    }
-
     header > div > p {
         font-size: 32px;
+    }
+
+    .headerBody {
+      @apply(--layout-horizontal);
     }
 
     .contact {
@@ -86,6 +80,7 @@
 
     .section {
         color: white;
+        @apply(--layout-horizontal);
     }
 
     .section#About,
@@ -120,6 +115,7 @@
     .section .right {
       width: 75%;
       padding: 100px 50px;
+
     }
 
     .section .right > p {
@@ -134,6 +130,48 @@
     .section#Experiences > .right,
     .section#Awards > .right {
       background: #2D2E2E;
+    }
+
+     @media (max-width: 768px) {
+      .headerBody {
+        @apply(--layout-vertical);
+        text-align: center;
+      }
+
+      .headerBody > div > img {
+        width: 150px;
+        height: 150px;
+        border-radius: 75px;
+        margin: 0;
+      }
+      
+      header > div > div > h1 {
+        font-size: 76px;
+      }
+
+      header > div div > {
+        margin: 0;
+      }
+
+      .section {
+        text-align: -webkit-center;
+        @apply(--layout-vertical);
+      }
+
+      .section .right > p {
+        text-align: left;
+      }
+
+      .section .left,
+      .section .right {
+        padding: 50px 25px;
+        text-align: center;
+        width: 86%;
+      }
+
+      .section .left > hr {
+        margin: auto;
+      }
     }
 
     app-toolbar {
@@ -200,7 +238,7 @@
 
         </app-header>
         <header id="Home" class="container">
-          <div class="layout horizontal">
+          <div class="headerBody">
             <div>
               <img class="contact" src="/images/contact.jpg">
             </div>
@@ -211,6 +249,7 @@
                 <h2>Student. Creative Thinker. Adventurer.</h2>
             </div>
           </div>
+          <template is="dom-if" if="[[isDesktop]]">
             <div class="footer">
               <hr>
               <div class="layout horizontal">
@@ -232,10 +271,11 @@
                 </div>
               </div>
             </div>
+          </template>
         </header>
       </app-header-layout>
 
-      <div id="About" class="section layout horizontal">
+      <div id="About" class="section">
         <div class="left">
           <hr>
           <h2>About</h2>
@@ -253,7 +293,7 @@
           </p>
         </div>
       </div>
-      <div id="Experiences" class="section layout horizontal">
+      <div id="Experiences" class="section">
          <div class="left">
           <hr>
           <h2>Experiences</h2>
@@ -267,7 +307,7 @@
           </p>
         </div>
       </div>
-      <div id="Projects" class="section layout horizontal">
+      <div id="Projects" class="section">
          <div class="left">
           <hr>
           <h2>Projects</h2>
@@ -281,7 +321,7 @@
           </p>
         </div>
       </div>
-      <div id="Awards" class="section layout horizontal">
+      <div id="Awards" class="section">
         <div class="left">
           <hr>
           <h2>Awards</h2>
@@ -309,6 +349,10 @@
 
       static get properties() {
         return {
+          isDesktop: {
+            type: Boolean, 
+            value: false
+          },
           selected: {
             type: String,
             value: 'Home'
@@ -337,6 +381,19 @@
         super.ready();
 
         this.setupNav();
+
+        if(window.innerWidth > 768) {
+          this.isDesktop = true;
+        }
+
+        window.addEventListener('resize', () => {
+          if(window.innerWidth > 768) {
+            this.isDesktop = true;
+          }
+          else {
+            this.isDesktop = false;
+          }
+        });
       }
 
       setupNav() {
@@ -357,6 +414,7 @@
           }
 
           this.navItems = [...this.root.querySelectorAll('paper-tab')];
+          this.navItems.push(...this.root.querySelectorAll('paper-item'));
           this.navItems.map(item =>
             item.addEventListener('click', () => {
               location.hash = item.getAttribute('name');
@@ -368,6 +426,7 @@
               else {
                 zenscroll.to(this.root.querySelector("#" + item.getAttribute('name')));
               }
+              this.root.querySelector('app-drawer').close();
             })
           );
         });
