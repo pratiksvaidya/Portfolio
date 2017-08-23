@@ -16,6 +16,7 @@
 <link rel="import" href="bower_components/paper-item/paper-item.html">
 <link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="bower_components/paper-button/paper-button.html">
 
 <dom-module id="x-app">
 
@@ -103,9 +104,9 @@
       margin-right: 0;
       width: 50px;
       height: 2px;
-      border-color: gold;
-      color: gold;
-      background-color: gold;
+      border-color: #F1B200;
+      color: #F1B200;
+      background-color: #F1B200;
     }
 
     .section .left > p {
@@ -130,6 +131,28 @@
     .section#Experiences > .right,
     .section#Awards > .right {
       background: #2D2E2E;
+    }
+
+    #grid {
+      flex-wrap:wrap;
+      @apply(--layout-horizontal);
+      
+    }
+
+    #imgContainer {
+      width: 45%;
+      margin: 10px;
+    }
+
+    .experience {
+        @apply(--layout-horizontal);
+    }
+
+    .experience > #timeline {
+      min-width: 110px;
+      margin-right: 20px;
+      margin-top: 1em;
+      font-style: italic;
     }
 
      @media (max-width: 768px) {
@@ -171,6 +194,11 @@
 
       .section .left > hr {
         margin: auto;
+      }
+
+      .experience {
+        @apply(--layout-vertical);
+        text-align: left;
       }
     }
 
@@ -222,7 +250,7 @@
       </app-drawer>
 
       <app-header-layout>
-        <app-header condenses reveals class="main-header" slot="header">
+        <app-header fixed class="main-header" slot="header">
 
           <app-toolbar>
             <paper-icon-button class="menu-button" icon="menu" drawer-toggle hidden$="{{wideLayout}}"></paper-icon-button>
@@ -300,11 +328,36 @@
           <p>What I love to do</p>
         </div>
         <div class="right">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur accumsan ante at bibendum condimentum. Proin blandit ipsum eget est aliquet blandit. Nulla consequat tortor non odio pretium, id vestibulum nunc vulputate. Nunc at laoreet eros. Nam facilisis posuere scelerisque. Nam eu mi eu massa luctus lobortis. In quis ultrices nisi. Vestibulum vitae vehicula sem, id accumsan lacus. Maecenas placerat placerat metus, interdum tempus mi tincidunt non. Integer nisl ligula, accumsan quis porta eget, tincidunt a dolor. Suspendisse luctus a ante nec molestie. Suspendisse nulla dui, suscipit ac nisl at, dictum porttitor eros. Sed sapien turpis, volutpat ut fermentum a, viverra non neque. Pellentesque ornare eget ipsum eget posuere.
-            <br>
-            Etiam tempus, risus nec cursus vulputate, ligula sem pulvinar ex, at facilisis lectus leo sit amet lorem. Mauris porttitor urna et est laoreet blandit. Phasellus mollis turpis porttitor sodales facilisis. Duis diam libero, maximus ut iaculis ac, auctor nec tellus. Nullam eu enim feugiat, lacinia mi et, ultrices ipsum. Phasellus quis nulla eu leo eleifend laoreet. Nulla facilisi. Pellentesque tempor in massa sed congue. Cras bibendum eget urna sit amet ultrices. Nulla non vulputate eros. Vestibulum placerat lacus sit amet tortor efficitur, eu fringilla eros elementum. Curabitur consectetur dictum elit non suscipit.
-          </p>
+          <div class="experience">
+              <div id="timeline">April 2017 <br> to Present</div>
+              <div>
+                <h3>Emergency Medical Technician</h3>
+                <h4>Emergent Health Partners</h4>
+                <p>
+                    I respond to emergency calls to provide efficient and immediate care to the critically ill and injured, and to transport the patient to a medical facility. I continue to gain patient contact experience, work under severe pressure and tight deadlines, and collaborate with my partner to ensure we arrive on scene expeditiously and safely, treat the patient effectively, and transport him/her appropriately.
+                </p>
+            </div>
+          </div>
+          <div class="experience">
+            <div id="timeline">February 2017 <br> to Present</div>
+            <div>
+              <h3>Engineering Intern</h3>
+              <h4>Wellopp</h4>
+              <p>
+                  I'm responsible for creating innovative tools that collect social determinant data from patients and perform analysis to provide personalized guidance, improve patient outcomes, and reduce hospital readmissions. I get to work with an interdisciplinary team and incorporate the workflows of a variety of personas in our solutions.
+              </p>
+            </div>
+          </div>
+          <div class="experience">
+              <div id="timeline">May 2016 <br> to Present</div>
+              <div>
+                <h3>Engineering Intern</h3>
+                <h4>Eventcorp Services, Inc</h4>
+                <p>
+                    I am accountable for developing solutions to automate the workflow of processing imported user data into reports for customer distribution. I design, develop, and test my solutions to ensure they are compatible with a variety of event formats, cumulatively saving hundreds of hours of labor. I collaborate with a global team of data analytics professionals and establish future milestones to revitalize the event analytics field.
+                </p>
+            </div>
+          </div>
         </div>
       </div>
       <div id="Projects" class="section">
@@ -314,11 +367,20 @@
           <p>Some hobbies</p>
         </div>
         <div class="right">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur accumsan ante at bibendum condimentum. Proin blandit ipsum eget est aliquet blandit. Nulla consequat tortor non odio pretium, id vestibulum nunc vulputate. Nunc at laoreet eros. Nam facilisis posuere scelerisque. Nam eu mi eu massa luctus lobortis. In quis ultrices nisi. Vestibulum vitae vehicula sem, id accumsan lacus. Maecenas placerat placerat metus, interdum tempus mi tincidunt non. Integer nisl ligula, accumsan quis porta eget, tincidunt a dolor. Suspendisse luctus a ante nec molestie. Suspendisse nulla dui, suscipit ac nisl at, dictum porttitor eros. Sed sapien turpis, volutpat ut fermentum a, viverra non neque. Pellentesque ornare eget ipsum eget posuere.
-            <br>
-            Etiam tempus, risus nec cursus vulputate, ligula sem pulvinar ex, at facilisis lectus leo sit amet lorem. Mauris porttitor urna et est laoreet blandit. Phasellus mollis turpis porttitor sodales facilisis. Duis diam libero, maximus ut iaculis ac, auctor nec tellus. Nullam eu enim feugiat, lacinia mi et, ultrices ipsum. Phasellus quis nulla eu leo eleifend laoreet. Nulla facilisi. Pellentesque tempor in massa sed congue. Cras bibendum eget urna sit amet ultrices. Nulla non vulputate eros. Vestibulum placerat lacus sit amet tortor efficitur, eu fringilla eros elementum. Curabitur consectetur dictum elit non suscipit.
-          </p>
+          <h3> Categories </h3>
+          <p><paper-button id="analytics">Analytics</paper-button> / <paper-button id="research">Research</paper-button> / <paper-button id="scouting">Scouting</paper-button> / <paper-button id="medical">Medical</paper-button> / <paper-button id="all">All</paper-button></p>
+          
+          <div id="grid">
+            <template is="dom-repeat" items="[[loadProjectImages()]]">
+              <div id="imgContainer">            
+                <img style='height: 300px; width: 100%; object-fit: cover' src="[[item.path]]"></img>
+                <div class="details"> 
+                    <h3 class="title">[[item.title]]</h3>
+                    <p class="description">[[item.description]]</p>
+                </div>   
+              </div>
+            </template>                  
+          </div>
         </div>
       </div>
       <div id="Awards" class="section">
@@ -394,6 +456,49 @@
             this.isDesktop = false;
           }
         });
+      }
+
+      loadProjectImages() {
+        let images = [
+          {
+            path: 'images/ultrasound_exposure.jpg',
+            title: 'Spatiotemporal Delivery using Ultrasound',
+            description: 'Research conducted at the University of Michigan Medical School, Department of Radiology',
+            link: '#'
+          },
+          {
+            path: 'images/cerner_nsj.jpg',
+            title: 'Emergency Medical Record System for 40,000',
+            description: 'Worked with a team from Cerner to train healthcare personnel, analyze medical records, and create deep-level reports.',
+            link: '#'
+          },
+          {
+            path: 'images/ultrasound_exposure.jpg',
+            title: 'Spatiotemporal Delivery using Ultrasound',
+            description: 'Research conducted at the University of Michigan Medical School, Department of Radiology',
+            link: '#'
+          },
+          {
+            path: 'images/cerner_nsj.jpg',
+            title: 'Emergency Medical Record System for 40,000',
+            description: 'Worked with a team from Cerner to train healthcare personnel, analyze medical records, and create deep-level reports.',
+            link: '#'
+          },
+          {
+            path: 'images/ultrasound_exposure.jpg',
+            title: 'Spatiotemporal Delivery using Ultrasound',
+            description: 'Research conducted at the University of Michigan Medical School, Department of Radiology',
+            link: '#'
+          },
+          {
+            path: 'images/cerner_nsj.jpg',
+            title: 'Emergency Medical Record System for 40,000',
+            description: 'Worked with a team from Cerner to train healthcare personnel, analyze medical records, and create deep-level reports.',
+            link: '#'
+          }
+        ]
+
+        return images;
       }
 
       setupNav() {
