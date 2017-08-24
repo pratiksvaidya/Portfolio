@@ -129,7 +129,6 @@
     .section .right {
       width: 75%;
       padding: 100px 50px;
-
     }
 
     .section .right > p {
@@ -393,7 +392,14 @@
           <p>What I love to do</p>
         </div>
         <div class="right">
-          <template is="dom-repeat" items="[[loadExperiences()]]">                
+          <p id="categories">
+            <strong>CATEGORIES:</strong> 
+            <paper-button class="experienceCategories" toggles id="internship">Internships</paper-button> / 
+            <paper-button class="experienceCategories" toggles id="volunteer">Volunteer Experiences</paper-button> / 
+            <paper-button class="experienceCategories" toggles id="job">Jobs</paper-button>
+          </p>
+
+          <template is="dom-repeat" items="[[loadExperiences(activeExperienceCategories)]]">                
             <div class="experience">
                 <div id="timeline">[[item.date]]</div>
                 <div>
@@ -416,9 +422,9 @@
         <div class="right">
           <p id="categories">
             <strong>CATEGORIES:</strong> 
-            <paper-button toggles id="analytics">Analytics</paper-button> / 
-            <paper-button toggles id="research">Research</paper-button> / 
-            <paper-button toggles id="scouting">Scouting</paper-button>
+            <paper-button class="projectCategories" toggles id="analytics">Analytics</paper-button> / 
+            <paper-button class="projectCategories" toggles id="research">Research</paper-button> / 
+            <paper-button class="projectCategories" toggles id="scouting">Scouting</paper-button>
           </p>
           
           <div id="grid">
@@ -521,11 +527,13 @@
         this.categoryBtns.map(item => {
           item.active = true;
           item.addEventListener('click', (e) => {
-            this.activeProjectCategories = [...this.root.querySelectorAll('paper-button[active]')];
+            this.activeExperienceCategories = [...this.root.querySelectorAll('paper-button[active].experienceCategories')];
+            this.activeProjectCategories = [...this.root.querySelectorAll('paper-button[active].projectCategories')];
 					});
         });
         
-        this.activeProjectCategories = [...this.root.querySelectorAll('paper-button[active]')];
+        this.activeExperienceCategories = [...this.root.querySelectorAll('paper-button[active].experienceCategories')];
+        this.activeProjectCategories = [...this.root.querySelectorAll('paper-button[active].projectCategories')];
       }
 
       setupNav() {
@@ -564,28 +572,42 @@
         });
       }
 
-      loadExperiences() {
+      loadExperiences(activeCategories) {
+        let selectedExperiences = [];
         let experiences = [
           {
             date: 'April 2017 - Present',
             position: 'Emergency Medical Technician',
             organization: 'Emergent Health Partners',
-            description: "I respond to emergency calls to provide efficient and immediate care to the critically ill and injured, and to transport the patient to a medical facility. I continue to gain patient contact experience, work under severe pressure and tight deadlines, and collaborate with my partner to ensure we arrive on scene expeditiously and safely, treat the patient effectively, and transport him/her appropriately."
+            description: "I respond to emergency calls to provide efficient and immediate care to the critically ill and injured, and to transport the patient to a medical facility. I continue to gain patient contact experience, work under severe pressure and tight deadlines, and collaborate with my partner to ensure we arrive on scene expeditiously and safely, treat the patient effectively, and transport him/her appropriately.",
+            category: 'job'
           },
           {
             date: "February 2017 - Present",
             position: 'Engineering Intern',
             organization: 'Wellopp',
-            description: "I'm responsible for creating innovative tools that collect social determinant data from patients and perform analysis to provide personalized guidance, improve patient outcomes, and reduce hospital readmissions. I get to work with an interdisciplinary team and incorporate the workflows of a variety of personas in our solutions."
+            description: "I'm responsible for creating innovative tools that collect social determinant data from patients and perform analysis to provide personalized guidance, improve patient outcomes, and reduce hospital readmissions. I get to work with an interdisciplinary team and incorporate the workflows of a variety of personas in our solutions.",
+            category: 'internship'
           },
           {
             date: "May 2016 - July 2017",
             position: 'Engineering Intern',
             organization: 'Eventcorp Services',
-            description: "I am accountable for developing solutions to automate the workflow of processing imported user data into reports for customer distribution. I design, develop, and test my solutions to ensure they are compatible with a variety of event formats, cumulatively saving hundreds of hours of labor. I collaborate with a global team of data analytics professionals and establish future milestones to revitalize the event analytics field."
+            description: "I am accountable for developing solutions to automate the workflow of processing imported user data into reports for customer distribution. I design, develop, and test my solutions to ensure they are compatible with a variety of event formats, cumulatively saving hundreds of hours of labor. I collaborate with a global team of data analytics professionals and establish future milestones to revitalize the event analytics field.",
+            category: 'internship'
           }
         ]
-        return experiences;
+        
+        for (let experience of experiences) {
+          for (let btn of activeCategories) {
+            if (experience.category.includes(btn.id)) {
+              selectedExperiences.push(experience);
+              break;
+            }
+          }
+        }
+
+        return selectedExperiences;
       }
 
       loadProjects(activeCategories) {
