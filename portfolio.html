@@ -18,12 +18,20 @@
 <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="bower_components/paper-button/paper-button.html">
 
-<dom-module id="x-app">
+<dom-module id="my-portfolio">
 
   <template>
     
     <style>
-     header {
+    :host {
+      @apply --paper-font-common-base;
+    }
+
+    app-header-layout {
+      z-index: 50;
+    }
+
+    header {
         @apply --layout-vertical;
         @apply --layout-center-center;
         height: calc(100vh - 64px);
@@ -48,6 +56,11 @@
 
     header > div > p {
         font-size: 32px;
+    }
+
+    a {
+      text-decoration: none !important;
+      color: black;
     }
 
     .headerBody {
@@ -136,21 +149,72 @@
     #grid {
       flex-wrap:wrap;
       @apply(--layout-horizontal);
-      
     }
 
-    #imgContainer {
-      width: 45%;
+    #grid > #container > a > paper-button {
+      background-color:#F1B200;
+      --paper-button-ink-color: black;
+    }
+
+    #container {
+      background-color: white;
+      width: 40%;
       margin: 10px;
+      color: black;
+      padding: 15px;
+      border-radius: 2px;
+      box-sizing: border-box;
     }
 
-    .experience {
+    @media (max-width: 1040px) {
+      #container {
+        width: 100%;
+        padding: 20px;
+      }
+
+      #categories {
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 767px) {
+      #container {
+        width: 45%;
+      }
+    }
+
+    @media (max-width: 540px) {
+      #container {
+        width: 100%;
+        padding: 20px;
+      }
+    }
+
+    .title {
+      margin-bottom: 5px;
+    }
+
+    .organization {
+      margin-top: 5px;  
+    }
+
+    .description {
+      text-align: left;
+      font-size: 14px;
+    }
+
+    paper-button[active] {
+      color:#F1B200;
+    }
+
+    .experience,
+    .award {
         @apply(--layout-horizontal);
     }
 
-    .experience > #timeline {
-      min-width: 110px;
-      margin-right: 20px;
+    #timeline {
+      min-width: 120px;
+      margin-right: 30px;
       margin-top: 1em;
       font-style: italic;
     }
@@ -196,7 +260,8 @@
         margin: auto;
       }
 
-      .experience {
+      .experience,
+      .award {
         @apply(--layout-vertical);
         text-align: left;
       }
@@ -317,7 +382,7 @@
             <br><br>
             As a former National Venturing President in the Boy Scouts of America and a current youth leader representing Scouting in the US, I learn and adapt to different leadership styles, communication techniques, strategies, and diverse and creative thinking from youth across the globe. 
             <br><br>
-            As a student witnessing the acceleration of the next era in human evolution - the age of AI and Machine Learning - I seek opportunities to combine my passion in Healthcare with the science of predictive and prescriptive analytics that will fundamentally change our way of life.
+            I study Biomedical Engineering and Computer Science at the University of Michigan. As a student witnessing the acceleration of the next era in human evolution - the age of AI and Machine Learning - I seek opportunities to combine my passion in Healthcare with the science of predictive and prescriptive analytics that will fundamentally change our way of life.
           </p>
         </div>
       </div>
@@ -328,36 +393,18 @@
           <p>What I love to do</p>
         </div>
         <div class="right">
-          <div class="experience">
-              <div id="timeline">April 2017 <br> to Present</div>
-              <div>
-                <h3>Emergency Medical Technician</h3>
-                <h4>Emergent Health Partners</h4>
-                <p>
-                    I respond to emergency calls to provide efficient and immediate care to the critically ill and injured, and to transport the patient to a medical facility. I continue to gain patient contact experience, work under severe pressure and tight deadlines, and collaborate with my partner to ensure we arrive on scene expeditiously and safely, treat the patient effectively, and transport him/her appropriately.
-                </p>
+          <template is="dom-repeat" items="[[loadExperiences()]]">                
+            <div class="experience">
+                <div id="timeline">[[item.date]]</div>
+                <div>
+                  <h3>[[item.position]]</h3>
+                  <h4>[[item.organization]]</h4>
+                  <p>
+                      [[item.description]]
+                  </p>
+              </div>
             </div>
-          </div>
-          <div class="experience">
-            <div id="timeline">February 2017 <br> to Present</div>
-            <div>
-              <h3>Engineering Intern</h3>
-              <h4>Wellopp</h4>
-              <p>
-                  I'm responsible for creating innovative tools that collect social determinant data from patients and perform analysis to provide personalized guidance, improve patient outcomes, and reduce hospital readmissions. I get to work with an interdisciplinary team and incorporate the workflows of a variety of personas in our solutions.
-              </p>
-            </div>
-          </div>
-          <div class="experience">
-              <div id="timeline">May 2016 <br> to Present</div>
-              <div>
-                <h3>Engineering Intern</h3>
-                <h4>Eventcorp Services, Inc</h4>
-                <p>
-                    I am accountable for developing solutions to automate the workflow of processing imported user data into reports for customer distribution. I design, develop, and test my solutions to ensure they are compatible with a variety of event formats, cumulatively saving hundreds of hours of labor. I collaborate with a global team of data analytics professionals and establish future milestones to revitalize the event analytics field.
-                </p>
-            </div>
-          </div>
+          </template>
         </div>
       </div>
       <div id="Projects" class="section">
@@ -367,17 +414,24 @@
           <p>Some hobbies</p>
         </div>
         <div class="right">
-          <h3> Categories </h3>
-          <p><paper-button id="analytics">Analytics</paper-button> / <paper-button id="research">Research</paper-button> / <paper-button id="scouting">Scouting</paper-button> / <paper-button id="medical">Medical</paper-button> / <paper-button id="all">All</paper-button></p>
+          <p id="categories">
+            <strong>CATEGORIES:</strong> 
+            <paper-button toggles id="analytics">Analytics</paper-button> / 
+            <paper-button toggles id="research">Research</paper-button> / 
+            <paper-button toggles id="scouting">Scouting</paper-button>
+          </p>
           
           <div id="grid">
-            <template is="dom-repeat" items="[[loadProjectImages()]]">
-              <div id="imgContainer">            
+            <template is="dom-repeat" items="[[loadProjects(activeProjectCategories)]]">
+              <div id="container">            
                 <img style='height: 300px; width: 100%; object-fit: cover' src="[[item.path]]"></img>
                 <div class="details"> 
                     <h3 class="title">[[item.title]]</h3>
                     <p class="description">[[item.description]]</p>
-                </div>   
+                </div>
+                <template is="dom-if" if="[[item.read_more]]">                    
+                  <a href="[[item.link]]" tabindex="-1" target="_blank"><paper-button> Read More </paper-button></a>
+                </template>
               </div>
             </template>                  
           </div>
@@ -390,11 +444,17 @@
           <p>Some achievements</p>
         </div>
         <div class="right">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur accumsan ante at bibendum condimentum. Proin blandit ipsum eget est aliquet blandit. Nulla consequat tortor non odio pretium, id vestibulum nunc vulputate. Nunc at laoreet eros. Nam facilisis posuere scelerisque. Nam eu mi eu massa luctus lobortis. In quis ultrices nisi. Vestibulum vitae vehicula sem, id accumsan lacus. Maecenas placerat placerat metus, interdum tempus mi tincidunt non. Integer nisl ligula, accumsan quis porta eget, tincidunt a dolor. Suspendisse luctus a ante nec molestie. Suspendisse nulla dui, suscipit ac nisl at, dictum porttitor eros. Sed sapien turpis, volutpat ut fermentum a, viverra non neque. Pellentesque ornare eget ipsum eget posuere.
-            <br>
-            Etiam tempus, risus nec cursus vulputate, ligula sem pulvinar ex, at facilisis lectus leo sit amet lorem. Mauris porttitor urna et est laoreet blandit. Phasellus mollis turpis porttitor sodales facilisis. Duis diam libero, maximus ut iaculis ac, auctor nec tellus. Nullam eu enim feugiat, lacinia mi et, ultrices ipsum. Phasellus quis nulla eu leo eleifend laoreet. Nulla facilisi. Pellentesque tempor in massa sed congue. Cras bibendum eget urna sit amet ultrices. Nulla non vulputate eros. Vestibulum placerat lacus sit amet tortor efficitur, eu fringilla eros elementum. Curabitur consectetur dictum elit non suscipit.
-          </p>
+        <div id="grid">
+            <template is="dom-repeat" items="[[loadAwards()]]">
+              <div id="container">            
+                <div class="details"> 
+                    <h3 class="title">[[item.name]]</h3>
+                    <p class="organization">[[item.organization]]</p>
+                    <p class="description">[[item.description]]</p>
+                </div>
+              </div>
+            </template>                  
+          </div>
         </div>
       </div>
     </app-drawer-layout>
@@ -404,9 +464,9 @@
   </template>
 
   <script>
-    class XApp extends Polymer.Element{
+    class MyPortfolio extends Polymer.Element{
       static get is() {
-        return 'x-app'
+        return 'my-portfolio'
       }
 
       static get properties() {
@@ -456,54 +516,21 @@
             this.isDesktop = false;
           }
         });
-      }
 
-      loadProjectImages() {
-        let images = [
-          {
-            path: 'images/ultrasound_exposure.jpg',
-            title: 'Spatiotemporal Delivery using Ultrasound',
-            description: 'Research conducted at the University of Michigan Medical School, Department of Radiology',
-            link: '#'
-          },
-          {
-            path: 'images/cerner_nsj.jpg',
-            title: 'Emergency Medical Record System for 40,000',
-            description: 'Worked with a team from Cerner to train healthcare personnel, analyze medical records, and create deep-level reports.',
-            link: '#'
-          },
-          {
-            path: 'images/ultrasound_exposure.jpg',
-            title: 'Spatiotemporal Delivery using Ultrasound',
-            description: 'Research conducted at the University of Michigan Medical School, Department of Radiology',
-            link: '#'
-          },
-          {
-            path: 'images/cerner_nsj.jpg',
-            title: 'Emergency Medical Record System for 40,000',
-            description: 'Worked with a team from Cerner to train healthcare personnel, analyze medical records, and create deep-level reports.',
-            link: '#'
-          },
-          {
-            path: 'images/ultrasound_exposure.jpg',
-            title: 'Spatiotemporal Delivery using Ultrasound',
-            description: 'Research conducted at the University of Michigan Medical School, Department of Radiology',
-            link: '#'
-          },
-          {
-            path: 'images/cerner_nsj.jpg',
-            title: 'Emergency Medical Record System for 40,000',
-            description: 'Worked with a team from Cerner to train healthcare personnel, analyze medical records, and create deep-level reports.',
-            link: '#'
-          }
-        ]
-
-        return images;
+        this.categoryBtns = [...this.root.querySelectorAll('paper-button')];
+        this.categoryBtns.map(item => {
+          item.active = true;
+          item.addEventListener('click', (e) => {
+            this.activeProjectCategories = [...this.root.querySelectorAll('paper-button[active]')];
+					});
+        });
+        
+        this.activeProjectCategories = [...this.root.querySelectorAll('paper-button[active]')];
       }
 
       setupNav() {
         requestAnimationFrame(() => {
-          let edgeOffset = 0; // px
+          let edgeOffset = 50; // px
           zenscroll.setup(null, edgeOffset);
 
           if(location.hash !== '') {
@@ -536,8 +563,115 @@
           );
         });
       }
+
+      loadExperiences() {
+        let experiences = [
+          {
+            date: 'April 2017 - Present',
+            position: 'Emergency Medical Technician',
+            organization: 'Emergent Health Partners',
+            description: "I respond to emergency calls to provide efficient and immediate care to the critically ill and injured, and to transport the patient to a medical facility. I continue to gain patient contact experience, work under severe pressure and tight deadlines, and collaborate with my partner to ensure we arrive on scene expeditiously and safely, treat the patient effectively, and transport him/her appropriately."
+          },
+          {
+            date: "February 2017 - Present",
+            position: 'Engineering Intern',
+            organization: 'Wellopp',
+            description: "I'm responsible for creating innovative tools that collect social determinant data from patients and perform analysis to provide personalized guidance, improve patient outcomes, and reduce hospital readmissions. I get to work with an interdisciplinary team and incorporate the workflows of a variety of personas in our solutions."
+          },
+          {
+            date: "May 2016 - July 2017",
+            position: 'Engineering Intern',
+            organization: 'Eventcorp Services',
+            description: "I am accountable for developing solutions to automate the workflow of processing imported user data into reports for customer distribution. I design, develop, and test my solutions to ensure they are compatible with a variety of event formats, cumulatively saving hundreds of hours of labor. I collaborate with a global team of data analytics professionals and establish future milestones to revitalize the event analytics field."
+          }
+        ]
+        return experiences;
+      }
+
+      loadProjects(activeCategories) {
+        let selectedProjects = [];
+        let projects = [
+          {
+            path: 'images/cerner_nsj.jpg',
+            title: 'Emergency Medical Record System for 40,000',
+            description: 'Worked with a team from Cerner to train healthcare personnel, analyze medical records, and create deep-level reports.',
+            link: '#',
+            category: 'scouting, analytics'
+          },
+          {
+            path: 'images/ultrasound_exposure.jpg',
+            title: 'Spatiotemporal Delivery using Ultrasound',
+            description: 'Research conducted at the University of Michigan Medical School, Department of Radiology',
+            read_more: true,
+            link: 'https://umich.box.com/shared/static/amzb3kt21hgsahqkdimyydgkwakw62ry.pdf',
+            category: 'research'
+          },
+          {
+            path: 'images/interamerican_leadership_training.jpg',
+            title: 'International Leadership and Peace-Building Training',
+            description: 'Delivered impactful training over the course of a week to Scouts from around the world in leadership, team building, conflict resolution, problem solving, project management and decision-making skills.',
+            read_more: true,
+            link: 'https://www.linkedin.com/pulse/learning-appreciate-scoutings-global-reach-pratik-vaidya',
+            category: 'scouting'
+          },
+          {
+            path: 'images/event_satisfaction.jpg',
+            title: 'Event Satisfaction Analysis',
+            description: 'Collected and processed event satisfaction survey data at a variety of large-scale events, including the US Open and the NBC Health Expo.',
+            link: '#',
+            category: 'analytics'
+          }
+        ];
+
+        for (let project of projects) {
+          for (let btn of activeCategories) {
+            if (project.category.includes(btn.id)) {
+              selectedProjects.push(project);
+              break;
+            }
+          }
+        }
+
+        return selectedProjects;
+      }
+
+      loadAwards() {
+        let awards = [
+          {
+            name: 'Eagle Scout Award',
+            organization: 'Boy Scouts of America',
+            description: "Received the Boy Scouts of America's highest honor of achievement after being involved in both a Troop and Venturing Crew. Overall, I have been involved in the Scouting program for 11 years and through the program have gained many experiences and learning opportunities in the fields of leadership, outdoor skills, communication, as well as a plethora of fields through the requirements of 23 Merit Badges."
+          },
+          {
+            name: "Dean's List",
+            organization: 'College of Engineering, University of Michigan',
+            description: "Must have completed at least 12 credit hours of graded (A-E) coursework toward degree and achieved a 3.50 or better GPA"
+          },
+          {
+            name: 'National Venturing Leadership Award',
+            organization: 'Boy Scouts of America',
+            description: "Presented annually to a maximum of 8 individuals nationwide who have made exceptional contributions to Venturing at the National level and who exemplify the Venturing Code and Venturing Oath in their daily lives."
+          },
+          {
+            name: 'Health and Safety Services Award',
+            organization: 'American Red Cross',
+            description: "Received the Health and Safety Services Award from the Youth Services team at the Seattle chapter for my continued commitment to the Red Cross program by serving as an Instructor Aide for CPR/First Aid, being elected as the Media Tech Coordinator for the Youth Council, and for founding and leading as president for the Skyline High School Red Cross Club."
+          },
+          {
+            name: 'AP Scholar with Distinction',
+            organization: 'College Board',
+            description: "Granted to students who receive an average score of at least 3.5 on all AP Exams taken, and scores of 3 or higher on five or more of these exams."
+          },
+          {
+            name: 'Venturing Silver Award',
+            organization: 'Boy Scouts of America',
+            description: "The Silver Award is the highest award in the Venturing program of the Boy Scouts of America. It requires Venturers to first earn the Bronze and Gold Award, mentor other crew members, serve the community, and continue growing skills related to leadership, emergency preparedness, and ethical decision making."
+          }
+        ]
+        return awards;
+      }
     }
-    customElements.define(XApp.is, XApp);
+    customElements.define(MyPortfolio.is, MyPortfolio);
   </script>
   <script src="bower_components/zenscroll/zenscroll-min.js"></script>
 </dom-module>
