@@ -17,6 +17,7 @@
 <link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
 
 <dom-module id="my-portfolio">
 
@@ -202,8 +203,10 @@
       font-size: 14px;
     }
 
-    paper-button[active] {
-      color:#F1B200;
+    paper-checkbox {
+      --paper-checkbox-label-color: white;
+      --paper-checkbox-checked-color: #F1B200;
+      --paper-checkbox-unchecked-color: #F1B200;
     }
 
     .experience,
@@ -394,9 +397,9 @@
         <div class="right">
           <p id="categories">
             <strong>CATEGORIES:</strong> 
-            <paper-button class="experienceCategories" toggles id="internship">Internships</paper-button> / 
-            <paper-button class="experienceCategories" toggles id="volunteer">Volunteer Experiences</paper-button> / 
-            <paper-button class="experienceCategories" toggles id="job">Jobs</paper-button>
+            <paper-checkbox class="experienceCategories" toggles id="internship">Internships</paper-checkbox> / 
+            <paper-checkbox class="experienceCategories" toggles id="volunteer">Volunteer Experiences</paper-checkbox> / 
+            <paper-checkbox class="experienceCategories" toggles id="job">Jobs</paper-checkbox>
           </p>
 
           <template is="dom-repeat" items="[[loadExperiences(activeExperienceCategories)]]">                
@@ -422,9 +425,9 @@
         <div class="right">
           <p id="categories">
             <strong>CATEGORIES:</strong> 
-            <paper-button class="projectCategories" toggles id="analytics">Analytics</paper-button> / 
-            <paper-button class="projectCategories" toggles id="research">Research</paper-button> / 
-            <paper-button class="projectCategories" toggles id="scouting">Scouting</paper-button>
+            <paper-checkbox class="projectCategories" toggles id="analytics">Analytics</paper-checkbox> /
+            <paper-checkbox class="projectCategories" toggles id="research">Research</paper-checkbox> /
+            <paper-checkbox class="projectCategories" toggles id="scouting">Scouting</paper-checkbox>            
           </p>
           
           <div id="grid">
@@ -523,17 +526,22 @@
           }
         });
 
-        this.categoryBtns = [...this.root.querySelectorAll('paper-button')];
+        this.categoryBtns = [...this.root.querySelectorAll('paper-checkbox')];
         this.categoryBtns.map(item => {
           item.active = true;
           item.addEventListener('click', (e) => {
-            this.activeExperienceCategories = [...this.root.querySelectorAll('paper-button[active].experienceCategories')];
-            this.activeProjectCategories = [...this.root.querySelectorAll('paper-button[active].projectCategories')];
+            this.activeExperienceCategories = [...this.root.querySelectorAll('paper-checkbox[active].experienceCategories')];
+            this.activeProjectCategories = [...this.root.querySelectorAll('paper-checkbox[active].projectCategories')];
+					});
+
+          item.addEventListener('tap', (e) => {
+            this.activeExperienceCategories = [...this.root.querySelectorAll('paper-checkbox[active].experienceCategories')];
+            this.activeProjectCategories = [...this.root.querySelectorAll('paper-checkbox[active].projectCategories')];
 					});
         });
         
-        this.activeExperienceCategories = [...this.root.querySelectorAll('paper-button[active].experienceCategories')];
-        this.activeProjectCategories = [...this.root.querySelectorAll('paper-button[active].projectCategories')];
+        this.activeExperienceCategories = [...this.root.querySelectorAll('paper-checkbox[active].experienceCategories')];
+        this.activeProjectCategories = [...this.root.querySelectorAll('paper-checkbox[active].projectCategories')];
       }
 
       setupNav() {
@@ -555,7 +563,7 @@
 
           this.navItems = [...this.root.querySelectorAll('paper-tab')];
           this.navItems.push(...this.root.querySelectorAll('paper-item'));
-          this.navItems.map(item =>
+          this.navItems.map(item => {
             item.addEventListener('click', () => {
               location.hash = item.getAttribute('name');
               if(location.hash == '#Home') {
@@ -567,8 +575,21 @@
                 zenscroll.to(this.root.querySelector("#" + item.getAttribute('name')));
               }
               this.root.querySelector('app-drawer').close();
-            })
-          );
+            });
+
+            item.addEventListener('tap', () => {
+              location.hash = item.getAttribute('name');
+              if(location.hash == '#Home') {
+                zenscroll.setup(null, 64);
+                zenscroll.to(this.root.querySelector("#" + item.getAttribute('name')));
+                zenscroll.setup(null, edgeOffset);
+              }
+              else {
+                zenscroll.to(this.root.querySelector("#" + item.getAttribute('name')));
+              }
+              this.root.querySelector('app-drawer').close();
+            });
+          });
         });
       }
 
