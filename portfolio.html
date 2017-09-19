@@ -223,7 +223,27 @@
       min-width: 120px;
       margin-right: 30px;
       margin-top: 1em;
-      font-style: italic;
+    }
+
+    .dates {
+      width: 100px;
+    }
+
+    .dates span {
+      display: block; 
+      padding: 6px; 
+      text-align: center; 
+    }
+
+    .dates #end {
+      z-index: 3; 
+      position: relative; 
+      background-color: #FFCC00; 
+      box-shadow: 0px 2px 6px -3px rgba(68, 68, 68, 0.5);
+    }
+
+    .dates #start {
+      background-color: #E6B10A;
     }
 
      @media (max-width: 768px) {
@@ -409,7 +429,12 @@
 
           <template is="dom-repeat" items="[[loadExperiences(activeExperienceCategories)]]">                
             <div class="experience">
-                <div id="timeline">[[item.date]]</div>
+                <div id="timeline">
+                  <div class="dates">
+                    <span id="end">[[item.end_date]]</span>
+                    <span id="start">[[item.start_date]]</span>
+                  </div>
+                </div>
                 <div>
                   <h3>[[item.position]]</h3>
                   <h4>[[item.organization]]</h4>
@@ -602,21 +627,24 @@
         let selectedExperiences = [];
         let experiences = [
           {
-            date: 'April 2017 - Present',
+            start_date: 'April 2017',
+            end_date: 'Present',
             position: 'Emergency Medical Technician',
             organization: 'Emergent Health Partners',
             description: "I respond to emergency calls to provide efficient and immediate care to the critically ill and injured, and to transport the patient to a medical facility. I continue to gain patient contact experience, work under severe pressure and tight deadlines, and collaborate with my partner to ensure we arrive on scene expeditiously and safely, treat the patient effectively, and transport him/her appropriately.",
             category: 'job'
           },
           {
-            date: "February 2017 - Present",
+            start_date: 'Feb 2017',
+            end_date: 'Present',
             position: 'Engineering Intern',
             organization: 'Wellopp',
             description: "I'm responsible for creating innovative tools that collect social determinant data from patients and perform analysis to provide personalized guidance, improve patient outcomes, and reduce hospital readmissions. I get to work with an interdisciplinary team and incorporate the workflows of a variety of personas in our solutions.",
             category: 'internship'
           },
           {
-            date: "May 2016 - July 2017",
+            start_date: 'May 2016',
+            end_date:  'July 2017',
             position: 'Engineering Intern',
             organization: 'Eventcorp Services',
             description: "I am accountable for developing solutions to automate the workflow of processing imported user data into reports for customer distribution. I design, develop, and test my solutions to ensure they are compatible with a variety of event formats, cumulatively saving hundreds of hours of labor. I collaborate with a global team of data analytics professionals and establish future milestones to revitalize the event analytics field.",
