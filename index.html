@@ -6,7 +6,34 @@
 
   <title>Pratik Vaidya</title>
 
-  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="bower_components/zenscroll/zenscroll-min.js"></script>  
+  
+  <!-- NOTE: synchronous load hack for safari -->
+	<script>
+		if(navigator.userAgent.indexOf('Safari') !== -1 && navigator.userAgent.indexOf('Chrome') === -1) {
+			document.write(`
+        <link rel="import" href="bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+        <link rel="import" href="bower_components/app-layout/app-drawer/app-drawer.html">
+        <link rel="import" href="bower_components/app-layout/app-header/app-header.html">
+        <link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
+        <link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+        <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
+        <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+        <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+        <link rel="import" href="bower_components/iron-icons/maps-icons.html">
+        <link rel="import" href="bower_components/iron-icons/hardware-icons.html">
+        <link rel="import" href="bower_components/iron-icons/communication-icons.html">
+        <link rel="import" href="bower_components/iron-media-query/iron-media-query.html">
+        <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+        <link rel="import" href="bower_components/paper-item/paper-item.html">
+        <link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
+        <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
+        <link rel="import" href="bower_components/paper-button/paper-button.html">
+        <link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+			`);
+		}
+  </script>
 
   <link rel="import" href="portfolio.html">
 
