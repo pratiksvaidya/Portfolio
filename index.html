@@ -8,6 +8,16 @@
 
   <script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
   <script src="bower_components/zenscroll/zenscroll-min.js"></script>  
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-7766656-11"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+  
+      gtag('config', 'UA-7766656-11');
+    </script>
   
   <!-- NOTE: synchronous load hack for safari -->
 	<script>
@@ -37,14 +47,6 @@
 
   <link rel="import" href="portfolio.html">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background-color: #fff;
-    }
-  </style>
-
   <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
   <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
@@ -62,6 +64,14 @@
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background-color: #fff;
+    }
+  </style>
 
 </head>
 <body unresolved>
