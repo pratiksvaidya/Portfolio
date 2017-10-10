@@ -1,5 +1,4 @@
 <link rel="import" href="bower_components/polymer/polymer.html">
-
 <link rel="import" href="bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="bower_components/app-layout/app-header/app-header.html">
@@ -18,6 +17,9 @@
 <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="bower_components/paper-button/paper-button.html">
 <link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+
+<link rel="import" href="contact-form.html">
+
 <script src="bower_components/zenscroll/zenscroll-min.js"></script>
 
 <dom-module id="my-portfolio">
@@ -100,7 +102,8 @@
     }
 
     .section#About,
-    .section#Projects {
+    .section#Projects,
+    .section#Connect {
       background: #292A2A;
     }
 
@@ -138,7 +141,8 @@
     }
 
     .section#About > .right,
-    .section#Projects > .right {
+    .section#Projects > .right,
+    .section#Connect > .right {
       background: #2B2C2C;
     }
 
@@ -272,6 +276,10 @@
         @apply(--layout-vertical);
       }
 
+      .section#Connect > .right {
+        text-align: left;
+      }
+
       .section .right > p {
         text-align: left;
       }
@@ -322,6 +330,17 @@
     [hidden] {
       display: none !important;
     }
+
+    contact-form {
+      --paper-input-container-input-color: #ffffff;
+      --paper-input-container-color: #ffffff;
+      --paper-input-container-focus-color: #FFCC00;
+      --contact-form-submit-background-color: #FFCC00;
+      --contact-form-submit-ink-color: #000000;
+      --contact-form-submit-color: #000000;
+      --contact-form-submit-hover-color: #ffffff;
+    }
+
     </style>
     <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
 
@@ -496,6 +515,16 @@
           </div>
         </div>
       </div>
+      <div id="Connect" class="section">
+        <div class="left">
+          <hr>
+          <h2>Connect</h2>
+          <p>Reach out to me</p>
+        </div>
+        <div class="right">
+          <contact-form firebase-api="AIzaSyAAT4DWBA-aBali1o8eXP_f96zOhmMVUoA" firebase-project-id="portfolio-961e2"></contact-form>          
+        </div>
+      </div>
     </app-drawer-layout>
 
     <iron-media-query query="min-width: 768px" query-matches="{{wideLayout}}"></iron-media-query>
@@ -526,7 +555,7 @@
           items: {
             type: Array,
             value: function() {
-              return ['Home', 'About', 'Experiences', 'Projects', 'Awards'];
+              return ['Home', 'About', 'Experiences', 'Projects', 'Awards', 'Connect'];
             }
           }
         }
