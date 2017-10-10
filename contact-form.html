@@ -1,0 +1,149 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/iron-icons/communication-icons.html">
+<link rel="import" href="bower_components/paper-input/paper-input.html">
+<link rel="import" href="bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="bower_components/paper-toast/paper-toast.html">
+
+<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-database.js"></script>
+
+<dom-module id="contact-form">
+
+  <template>
+    
+    <style>
+    
+    iron-icon {
+      margin-right: 5px;
+    }
+
+    #error {
+      --paper-toast-background-color: red;
+      --paper-toast-color: white;
+    }
+
+    </style>
+
+    <paper-input class="input" label="Name" error-message="Please enter your name." required></paper-input>
+    <paper-input class="input" label="Email" type="email" error-message="Please enter a valid email." required>
+      <iron-icon icon="mail" slot="prefix"></iron-icon>
+    </paper-input>
+    <paper-input class="input" label="Phone Number" type="tel" allowed-pattern="[0-9]" pattern="\([0-9][0-9][0-9]\)\s[0-9][0-9][0-9]\s-\s[0-9][0-9][0-9][0-9]" maxlength="10" error-message="Please enter a valid phone number." required>
+      <iron-icon icon="communication:call" slot="prefix"></iron-icon>
+    </paper-input>
+    <paper-textarea class="input" label="Comments" error-message="Please enter a comment." required>
+      <iron-icon icon="communication:comment" slot="prefix"></iron-icon>
+    </paper-textarea>
+
+    <br>
+
+    <paper-button id="submit">Submit</paper-button>
+
+    <paper-toast id="confirmation" text="Thank you for your comment!"></paper-toast>
+    <paper-toast id="error" text="Please fix the errors above."></paper-toast>
+    
+  </template>
+
+  <script>
+    class ContactForm extends Polymer.Element{
+      static get is() {
+        return 'contact-form'
+      }
+
+      static get properties() {
+        return {
+          firebaseApi: {
+            type: String
+          },
+          firebaseProjectId: {
+            type: String
+          }
+        }
+      }
+
+      ready() { 
+        super.ready();
+
+        this.initializeFirebase();
+        this.formatPhone();
+        this.initializeSubmit();
+      }
+
+      initializeFirebase() {
+        var config = {
+          apiKey: this.firebaseApi,
+          authDomain: `${this.firebaseProjectId}.firebaseapp.com`,
+          databaseURL: `https://${this.firebaseProjectId}.firebaseio.com`,
+          projectId: this.firebaseProjectId
+        };
+
+        firebase.initializeApp(config);
+        this.database = firebase.database();
+      }
+
+      formatPhone() {
+        this.inputPhoneNumber = this.root.querySelector('paper-input[label="Phone Number"]');
+        this.inputPhoneNumber.addEventListener('change', () => {
+          this.inputPhoneNumber.value = this.inputPhoneNumber.value.replace(/\D/g, '');
+          if(this.inputPhoneNumber.value.length === 0) {
+            this.inputPhoneNumber.value = '';
+          }
+          else {
+            this.inputPhoneNumber.value = `(${this.inputPhoneNumber.value.substring(0, 3)}) ${this.inputPhoneNumber.value.substring(3, 6)} - ${this.inputPhoneNumber.value.substring(6, 11)} `;
+            this.inputPhoneNumber.value = this.inputPhoneNumber.value.substring(0, 16);
+          }
+				});
+      }
+
+      initializeSubmit() {
+        this.submitBtn = this.root.querySelector('#submit');
+        this.submitBtn.addEventListener('click', () => {
+          if(this.validateInputs()) {
+            let name = this.root.querySelector('paper-input[label="Name"]').value;
+            let email = this.root.querySelector('paper-input[label="Email"]').value;
+            let phone = this.root.querySelector('paper-input[label="Phone Number"]').value;
+            let comments = this.root.querySelector('paper-textarea[label="Comments"]').value;
+
+            this.writeToFirebase(name, email, phone, comments);
+            
+            this.root.querySelector('#confirmation').open();
+            this.clearInputs();
+          }
+          else {
+            this.root.querySelector('#error').open();
+          }
+        });
+      }
+
+      validateInputs() {
+        let isValid = true;
+        this.inputs = this.root.querySelectorAll('.input');
+        this.inputs.forEach(input => {
+          if(!input.validate()) {
+            isValid = false;
+          }
+        })
+
+        return isValid;
+      }
+
+      writeToFirebase(name, email, phone, comments) {
+        this.database.ref('comments/' + Date()).set({
+          Name: name,
+          Email: email,
+          Phone: phone,
+          Comments: comments
+        });
+      }
+
+      clearInputs() {
+        this.inputs.forEach(input => {
+          input.value = null;
+        });
+      }
+    }
+    customElements.define(ContactForm.is, ContactForm);
+  </script>
+</dom-module>
