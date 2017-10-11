@@ -331,6 +331,10 @@
       display: none !important;
     }
 
+    #Connect > .right > .container {
+      max-width: 500px;
+    }
+
     contact-form {
       --paper-input-container-input-color: #ffffff;
       --paper-input-container-color: #ffffff;
@@ -521,7 +525,9 @@
           <p>Reach out to me</p>
         </div>
         <div class="right">
-          <contact-form firebase-api="AIzaSyAAT4DWBA-aBali1o8eXP_f96zOhmMVUoA" firebase-project-id="portfolio-961e2"></contact-form>          
+          <div class="container">
+            <contact-form firebase-api="AIzaSyAAT4DWBA-aBali1o8eXP_f96zOhmMVUoA" firebase-project-id="portfolio-961e2"></contact-form>          
+          </div>
         </div>
       </div>
     </app-drawer-layout>
