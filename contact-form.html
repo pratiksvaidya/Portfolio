@@ -1,4 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/iron-form/iron-form.html">
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="bower_components/iron-icons/communication-icons.html">
 <link rel="import" href="bower_components/paper-input/paper-input.html">
@@ -6,8 +7,11 @@
 <link rel="import" href="bower_components/paper-button/paper-button.html">
 <link rel="import" href="bower_components/paper-toast/paper-toast.html">
 
-<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
-<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-database.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+  crossorigin="anonymous">
+</script>
 
 <dom-module id="contact-form">
 
@@ -35,21 +39,25 @@
     }
 
     </style>
+    
+    <iron-form>
+      <form method="POST" action="https://formcarry.com/s/S1Um-l2M7">
+        <paper-input class="input" name="Name" label="Name" error-message="Please enter your name." required></paper-input>
+        <paper-input class="input" name="Email" label="Email" type="email" error-message="Please enter a valid email." required>
+          <iron-icon icon="mail" slot="prefix"></iron-icon>
+        </paper-input>
+        <paper-input class="input" name="Phone Number" label="Phone Number" type="tel" allowed-pattern="[0-9]" pattern="\([0-9][0-9][0-9]\)\s[0-9][0-9][0-9]\s-\s[0-9][0-9][0-9][0-9]" maxlength="10" error-message="Please enter a valid phone number." required>
+          <iron-icon icon="communication:call" slot="prefix"></iron-icon>
+        </paper-input>
+        <paper-textarea class="input" name="Comments" label="Comments" error-message="Please enter a comment." required>
+          <iron-icon icon="communication:comment" slot="prefix"></iron-icon>
+        </paper-textarea>
 
-    <paper-input class="input" label="Name" error-message="Please enter your name." required></paper-input>
-    <paper-input class="input" label="Email" type="email" error-message="Please enter a valid email." required>
-      <iron-icon icon="mail" slot="prefix"></iron-icon>
-    </paper-input>
-    <paper-input class="input" label="Phone Number" type="tel" allowed-pattern="[0-9]" pattern="\([0-9][0-9][0-9]\)\s[0-9][0-9][0-9]\s-\s[0-9][0-9][0-9][0-9]" maxlength="10" error-message="Please enter a valid phone number." required>
-      <iron-icon icon="communication:call" slot="prefix"></iron-icon>
-    </paper-input>
-    <paper-textarea class="input" label="Comments" error-message="Please enter a comment." required>
-      <iron-icon icon="communication:comment" slot="prefix"></iron-icon>
-    </paper-textarea>
+        <br>
 
-    <br>
-
-    <paper-button id="submit">Submit</paper-button>
+        <paper-button id="submit">Submit</paper-button>
+      </form>
+    </iron-form>
 
     <paper-toast id="confirmation" text="Thank you for your comment!"></paper-toast>
     <paper-toast id="error" text="Please fix the errors above."></paper-toast>
@@ -76,7 +84,6 @@
       ready() { 
         super.ready();
 
-        this.initializeFirebase();
         this.formatPhone();
         this.initializeSubmit();
       }
@@ -89,8 +96,6 @@
           projectId: this.firebaseProjectId
         };
 
-        firebase.initializeApp(config);
-        this.database = firebase.database();
       }
 
       formatPhone() {
@@ -116,7 +121,7 @@
             let phone = this.root.querySelector('paper-input[label="Phone Number"]').value;
             let comments = this.root.querySelector('paper-textarea[label="Comments"]').value;
 
-            this.writeToFirebase(name, email, phone, comments);
+            this.root.querySelector('iron-form').submit();
             
             this.root.querySelector('#confirmation').open();
             this.clearInputs();
@@ -139,12 +144,19 @@
         return isValid;
       }
 
-      writeToFirebase(name, email, phone, comments) {
-        this.database.ref('comments/' + Date()).set({
-          Name: name,
-          Email: email,
-          Phone: phone,
-          Comments: comments
+      sendtoFormSpree(name, email, phone, comments) {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: 'https://formcarry.com/s/S1Um-l2M7',
+            data: $(name, email, phone, comments).serialize(),
+            success: function(response){
+                if(response.status == "success"){
+                    alert("We received your submission, thank you!");
+                }else{
+                    alert("An error occured.");
+                }
+            }
         });
       }
 

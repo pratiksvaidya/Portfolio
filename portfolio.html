@@ -17,6 +17,7 @@
 <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="bower_components/paper-button/paper-button.html">
 <link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="bower_components/social-media-icons/social-media-icons.html">
 
 <link rel="import" href="contact-form.html">
 
@@ -60,6 +61,15 @@
 
     header > div > p {
         font-size: 32px;
+    }
+
+    social-media-icons {
+      padding: 5px;
+      opacity: 0.6;
+    }
+
+    .hover {
+      opacity: 1.0;
     }
 
     a {
@@ -402,6 +412,18 @@
                 <h1>Pratik</h1>
                 <h1><strong>Vaidya</strong></h1>
                 <h2>Student. Creative Thinker. Adventurer.</h2>
+                <a target="_blank" href="https://twitter.com/pratiksventures">
+                  <social-media-icons icon="twitter" color="#ffffff" size="24"></social-media-icons>
+                </a>
+                <a target="_blank" href="https://github.com/pratiksvaidya">
+                  <social-media-icons icon="github" color="#ffffff" size="24"></social-media-icons>
+                </a>
+                <a target="_blank" href="https://www.linkedin.com/in/pratikvaidya/">
+                  <social-media-icons icon="linkedin" color="#ffffff" size="24"></social-media-icons>
+                </a>
+                <a target="_blank" href="https://www.facebook.com/pratiksvaidya">
+                  <social-media-icons icon="facebook" color="#ffffff" size="24"></social-media-icons>
+                </a>
             </div>
           </div>
           <template is="dom-if" if="[[isDesktop]]">
@@ -536,7 +558,19 @@
           <hr>
           <h2>Connect</h2>
           <p>Reach out to me</p>
-          <a target="_blank" href="https://www.linkedin.com/in/pratikvaidya/"><span id="linkedin"><span></a>
+          <!-- <a target="_blank" href="https://www.linkedin.com/in/pratikvaidya/"><span id="linkedin"><span></a> -->
+          <a target="_blank" href="https://twitter.com/pratiksventures">
+            <social-media-icons icon="twitter" color="#ffffff" size="24"></social-media-icons>
+          </a>
+          <a target="_blank" href="https://github.com/pratiksvaidya">
+            <social-media-icons icon="github" color="#ffffff" size="24"></social-media-icons>
+          </a>
+          <a target="_blank" href="https://www.linkedin.com/in/pratikvaidya/">
+            <social-media-icons icon="linkedin" color="#ffffff" size="24"></social-media-icons>
+          </a>
+          <a target="_blank" href="https://www.facebook.com/pratiksvaidya">
+            <social-media-icons icon="facebook" color="#ffffff" size="24"></social-media-icons>
+          </a>            
         </div>
         <div class="right">
           <div class="container">
@@ -602,6 +636,17 @@
           else {
             this.isDesktop = false;
           }
+        });
+
+        this.socialMediaIcons = [...this.root.querySelectorAll('social-media-icons')];
+        this.socialMediaIcons.map(item => {
+          item.addEventListener('mouseover', (e) => {
+            item.classList.add("hover")
+          })
+
+          item.addEventListener('mouseout', (e) => {
+            item.classList.remove("hover")
+          })
         });
 
         this.categoryBtns = [...this.root.querySelectorAll('paper-checkbox')];

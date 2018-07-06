@@ -2,7 +2,7 @@
   "name": "personal",
   "homepage": "https://github.com/pratiksvaidya/personal",
   "authors": [
-    "pratiksvaidya <pratik@wellopp.com>"
+    "pratiksvaidya <pratik@prahan.com>"
   ],
   "description": "",
   "main": "",
@@ -27,6 +27,12 @@
     "paper-button": "^2.0.0",
     "paper-checkbox": "^2.0.1",
     "paper-input": "^2.0.2",
-    "paper-toast": "^2.0.0"
+    "paper-toast": "^2.0.0",
+    "social-media-icons": "^1.3.1",
+    "iron-form": "^2.4.0"
+  },
+  "resolutions": {
+    "polymer": "1.9 - 2",
+    "webcomponentsjs": "^0.7.24"
   }
 }
