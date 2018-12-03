@@ -495,7 +495,7 @@
         <div class="right">
           <p id="categories">
             <strong>CATEGORIES:</strong> 
-            <paper-checkbox class="projectCategories" toggles id="analytics">Analytics</paper-checkbox> /
+            <paper-checkbox class="projectCategories" toggles id="development">Development</paper-checkbox> /
             <paper-checkbox class="projectCategories" toggles id="research">Research</paper-checkbox> /
             <paper-checkbox class="projectCategories" toggles id="scouting">Scouting</paper-checkbox>            
           </p>
@@ -783,19 +783,27 @@
         let selectedProjects = [];
         let projects = [
           {
+            path: 'images/mdining.png',
+            title: 'Michigan Dining Alexa Skill',
+            description: 'Created an Alexa skill that allows users to ask for dining hall menus at the University of Michigan. Allows inquires about specific locations, stations, and food items. Uses AWS Lambda, Google Cloud Firestore, and Selenium.',
+            read_more: true,
+            link: 'https://github.com/pratiksvaidya/MDiningMenu/',
+            category: 'development'
+          },
+          {
             path: 'images/silver.png',
             title: 'Prescription Management Application',
             description: 'Created Silver during the Cerner intern hackathon to simplify prescription management, especially for patients with a large number of medications. Received 1st Place Overall!',
             read_more: true,
             link: 'https://github.com/pratiksvaidya/CernerShipIt',
-            category: 'analytics'
+            category: 'development'
           },
           {
             path: 'images/cerner_nsj.jpg',
             title: 'Emergency Medical Record System for 40,000',
             description: 'Worked with a team of Cerner Corporation employees to train healthcare personnel, analyze medical records, and create trending reports to allocate resources and reduce injuries at the National Scout Jamboree.',
             link: '#',
-            category: 'scouting, analytics'
+            category: 'scouting, development'
           },
           {
             path: 'images/ultrasound_exposure.jpg',
@@ -818,7 +826,7 @@
             title: 'Event Satisfaction Analysis',
             description: 'Collected and processed event satisfaction survey data at a variety of large-scale events, including the US Open and the NBC Health Expo.',
             link: '#',
-            category: 'analytics'
+            category: 'development'
           }
         ];
 
