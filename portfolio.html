@@ -21,6 +21,8 @@
 
 <link rel="import" href="contact-form.html">
 
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+
 <script src="bower_components/zenscroll/zenscroll-min.js"></script>
 
 <dom-module id="my-portfolio">
@@ -354,6 +356,18 @@
         --contact-form-submit-color: #000000;
         --contact-form-submit-hover-color: #ffffff;
       }
+
+      paper-button {
+        color: black;
+        font-style: normal;
+        background-color: #ffffff;
+        opacity: .6;
+        --paper-button-ink-color: black;
+      }
+
+      paper-button:hover {
+        opacity: 1;
+      }
     </style>
     <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
 
@@ -560,6 +574,11 @@
           <a target="_blank" href="https://twitter.com/pratiksventures">
             <social-media-icons icon="twitter" color="#ffffff" size="24"></social-media-icons>
           </a>
+          <p>
+            <paper-button id="meet"
+              onclick="Calendly.initPopupWidget({url: 'https://calendly.com/pratik-vaidya?hide_gdpr_banner=1'});return false;">Let's Meet!
+            </paper-button>
+          </p>
         </div>
         <div class="right">
           <div class="container">
@@ -911,4 +930,5 @@
     }
     customElements.define(MyPortfolio.is, MyPortfolio);
   </script>
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 </dom-module>
